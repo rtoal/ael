@@ -25,7 +25,7 @@ def compile(source, options):
 
 sample = """
     let dozen = 4 * 3
-    print dozen / abs 34 * (0 + 7 * 100)
+    print (dozen / abs 34 - 0) + 7 * 100)
     """
 
-compile(sample, '-t')
+compile(sample, '-a')

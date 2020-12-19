@@ -39,7 +39,7 @@ class Scanner:
         self.category, self.lexeme = next(self.stream)
 
     def at(self, candidate):
-        if isinstance(candidate, list):
+        if isinstance(candidate, set):
             return any(self.at(c) for c in candidate)
         if candidate.startswith('#'):
             return self.category == candidate
