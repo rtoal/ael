@@ -40,20 +40,20 @@ The compiler is written in fairly modern Python. You will need version 3.8 or ab
 Because this is an illustration of compiler writing, there are command line options that expose what each of the compiler phases are doing:
 
 <dl>
-<dt>`ael -t myprogram.ael`</dt>
-<dd>Dumps the token sequence of `myprogram.ael` then stops</dd>
+<dt><code>ael -t myprogram.ael`</dt>
+<dd>Dumps the token sequence of <code>myprogram.ael</code> then stops</dd>
 
-<dt>`ael -a myprogram.ael`</dt>
-<dd>Dumps the abstract syntax tree `myprogram.ael` then stops</dd>
+<dt><code>ael -a myprogram.ael</code></dt>
+<dd>Dumps the abstract syntax tree <code>myprogram.ael</code> then stops</dd>
 
-<dt>`ael -i myprogram.ael`</dt>
-<dd>Dumps the semantic-checked graph of `myprogram.ael` then stops</dd>
+<dt><code>ael -i myprogram.ael</code></dt>
+<dd>Dumps the semantic-checked graph of <code>myprogram.ael</code> then stops</dd>
 
-<dt>`ael -o myprogram.ael`</dt>
-<dd>Dumps the optimized semantic-checked graph of `myprogram.ael` then stops</dd>
+<dt><code>ael -o myprogram.ael</code></dt>
+<dd>Dumps the optimized semantic-checked graph of <code>myprogram.ael</code> then stops</dd>
 
-<dt>`ael myprogram.ael`</dt>
-<dd>Outputs the target code for `myprogram.ael`</dd>
+<dt><code>ael myprogram.ael</code></dt>
+<dd>Outputs the target code for <code>myprogram.ael</code></dd>
 </dl>
 
 # Contributing
