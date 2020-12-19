@@ -1,6 +1,6 @@
 # ael
 
-This is aompiler for the language Ael written completely from scratch with no external libraries. Ael stands for (A)rithmetic (E)xpression (L)anguage. It’s the language of arithmetic expressions over integers, limited to `+`, `-`, `*`, `/`, `abs`, and `sqrt` (with parentheses of course). The purpose of this language is to serve as an introductory example for compiler writing, so the language contains rather gratuitous declarations, assignments, and print statements.
+This is aompiler for the language **Ael** written completely from scratch with no external libraries. Ael stands for (A)rithmetic (E)xpression (L)anguage. It’s the language of arithmetic expressions over integers, limited to `+`, `-`, `*`, `/`, `abs`, `sqrt`, and parentheses. The purpose of this language is to serve as an introductory example for compiler writing, so the language throws in declarations, assignments, and print statements to illustrate the difference between statements and expressions, and to have _something_ to do during semantic analysis.
 
 ## Sample Program
 
@@ -14,7 +14,7 @@ x = y
 print y / sqrt 3
 ```
 
-# Grammar
+## Grammar
 
 Here is the grammar of the language:
 
@@ -33,7 +33,7 @@ keyword     = (let|print|abs|sqrt)\b
 id          = \w+
 ```
 
-# Running
+## Running
 
 The compiler is written in fairly modern Python. You will need version 3.8 or above.
 
@@ -56,6 +56,8 @@ Because this is an illustration of compiler writing, there are command line opti
 <dd>Outputs the target code for <code>myprogram.ael</code></dd>
 </dl>
 
-# Contributing
+To keep things simple, the compiler will halt on the first error it finds.
 
-I’m happy to take PRs. As usual, be nice when filing issues and contributing. Do remember the idea is to keep the language tiny; if you’d like to extend the language, you’re probably better forking this into a new project. However, I would love to see any improvements you might have in the implementation (and the pedagogy).
+## Contributing
+
+I’m happy to take PRs. As usual, be nice when filing issues and contributing. Do remember the idea is to keep the language tiny; if you’d like to extend the language, you’re probably better forking this into a new project. However, I would _love_ to see any improvements you might have for the implementation and the pedagogy.
