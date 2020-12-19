@@ -14,7 +14,7 @@ class Declaration:
 
     def analyze(self, context):
         self.initializer.analyze(context)
-        context.add_variable(self.identifier)
+        context.add_variable(self.identifier, self)
 
 
 class Assignment:
@@ -32,7 +32,7 @@ class PrintStatement:
         self.expression = expression
 
     def analyze(self, context):
-        self.expression.analyze()
+        self.expression.analyze(context)
 
 
 class BinaryExpression:
@@ -42,8 +42,8 @@ class BinaryExpression:
         self.right = right
 
     def analyze(self, context):
-        self.left.analayze(context)
-        self.right.analayze(context)
+        self.left.analyze(context)
+        self.right.analyze(context)
 
 
 class UnaryExpression:
@@ -52,7 +52,7 @@ class UnaryExpression:
         self.operand = operand
 
     def analyze(self, context):
-        self.operand.analayze(context)
+        self.operand.analyze(context)
 
 
 class IdentifierExpression:

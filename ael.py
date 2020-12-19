@@ -11,9 +11,9 @@ def compile(source, options):
             print(token)
     elif options == '-a':
         pretty_print(parse(source))
-    elif options == 'i':
+    elif options == '-i':
         show_graph(analyze(parse(source)))
-    elif options == 'o':
+    elif options == '-o':
         show_graph(optimize(analyze(parse(source))))
     elif options is None:
         print(generate(optimize(analyze(parse(source)))))
@@ -28,4 +28,5 @@ sample = """
     print (dozen / abs 34 - 0) + 7 * 100)
     """
 
-compile(sample, '-a')
+# compile(sample, '-t')
+compile(sample, '-i')
