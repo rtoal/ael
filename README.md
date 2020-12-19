@@ -40,7 +40,7 @@ The compiler is written in fairly modern Python. You will need version 3.8 or ab
 Because this is an illustration of compiler writing, there are command line options that expose what each of the compiler phases are doing:
 
 <dl>
-<dt><code>ael -t myprogram.ael`</dt>
+<dt><code>ael -t myprogram.ael</dt>
 <dd>Dumps the token sequence of <code>myprogram.ael</code> then stops</dd>
 
 <dt><code>ael -a myprogram.ael</code></dt>
