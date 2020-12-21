@@ -23,7 +23,7 @@ Program     = Stmt+
 Stmt        = Decl | AssignStmt | PrintStmt
 Decl        = "let" id "=" Exp
 AssignStmt  = id "=" Exp
-PrintStmt   = "print" Stmt
+PrintStmt   = "print" Exp
 Exp         = Term (("+" | "-") Term)*
 Term        = Factor (("*" | "/") Factor)*
 Factor      = num | id | unaryop Factor | "(" Exp ")"
@@ -60,4 +60,4 @@ To keep things simple, the compiler will halt on the first error it finds.
 
 ## Contributing
 
-I’m happy to take PRs. As usual, be nice when filing issues and contributing. Do remember the idea is to keep the language tiny; if you’d like to extend the language, you’re probably better forking this into a new project. However, I would _love_ to see any improvements you might have for the implementation and the pedagogy.
+I’m happy to take PRs. As usual, be nice when filing issues and contributing. Do remember the idea is to keep the language tiny; if you’d like to extend the language, you’re probably better forking into a new project. However, I would _love_ to see any improvements you might have for the implementation or the pedagogy.

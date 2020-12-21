@@ -1,5 +1,7 @@
 from scanner import Scanner
-from ast import *
+from ast import Program, Declaration, Assignment, PrintStatement
+from ast import IdentifierExpression, LiteralExpression
+from ast import BinaryExpression, UnaryExpression
 
 
 def parse(source_code):

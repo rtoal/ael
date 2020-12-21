@@ -25,34 +25,25 @@ def optimize(program):
 
 def show_graph(program):
     entities = {}
-    add_reachable_entities(program, entities)
-    for node, index in entities.items():
-        print(detail_line(node, index, entities))
 
+    def add_reachable_entities(node):
+        if node and '__dict__' in dir(node) and node not in entities:
+            entities[node] = len(entities)
+            for key, value in node.__dict__.items():
+                if isinstance(value, list):
+                    for n in value:
+                        add_reachable_entities(n)
+                else:
+                    add_reachable_entities(value)
 
-def add_reachable_entities(node, entities):
-    if not node or '__dict__' not in dir(node) or node in entities:
-        return
-    entities[node] = len(entities)
-    for key, value in node.__dict__.items():
+    def ref(value):
         if isinstance(value, list):
-            for n in value:
-                add_reachable_entities(n, entities)
-        else:
-            add_reachable_entities(value, entities)
+            return f"[{','.join(ref(v) for v in value)}]"
+        elif '__dict__' in dir(value):
+            return f'#{entities.get(value)}'
+        return repr(value)
 
-
-def ref(value, entities):
-    if isinstance(value, list):
-        return f"[{','.join(ref(v, entities) for v in value)}]"
-    elif '__dict__' in dir(value):
-        return f'#{entities.get(value)}'
-    return repr(value)
-
-
-def detail_line(node, index, entities):
-    line = f'{index} ({type(node).__name__})'
-    for key, value in node.__dict__.items():
-        value = ref(value, entities)
-        line += '' if not value else f' {key}={value}'
-    return line
+    add_reachable_entities(program)
+    for node, index in entities.items():
+        attributes = [f'{k}={ref(v)}' for k, v in node.__dict__.items()]
+        print(f'{index} ({type(node).__name__}) {" ".join(attributes)}')

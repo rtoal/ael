@@ -1,3 +1,14 @@
+"""Abstract Syntax Tree Nodes
+
+Each has:
+
+  1. A constructor
+  2. An analyze method for semantic analysis
+  3. An optimize method for machine-independent optimization
+
+"""
+
+
 class Program:
     def __init__(self, statements):
         self.statements = statements
@@ -5,6 +16,9 @@ class Program:
     def analyze(self, context):
         for s in self.statements:
             s.analyze(context)
+
+    def optimize(self):
+        self.statements = [s.optimize() for s in self.statements if s]
 
 
 class Declaration:
