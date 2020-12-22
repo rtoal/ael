@@ -1,7 +1,8 @@
 from scanner import tokenize
 from parser import parse
 from ast import pretty_print
-from semantics import analyze, optimize, show_graph
+from analyzer import analyze, show_graph
+from optimizer import optimize
 from generator import generate
 
 

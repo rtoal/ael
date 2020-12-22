@@ -1,11 +1,8 @@
 """Abstract Syntax Tree Nodes
 
-Each has:
-
-  1. A constructor
-  2. An analyze method for semantic analysis
-  3. An optimize method for machine-independent optimization
-
+This module defines classes for the AST nodes. A pretty print function is
+included since I could not find a built-in one for Python that worked on trees
+of objects (though the built-in pprint does a good job with dictionaries)
 """
 
 
@@ -13,22 +10,11 @@ class Program:
     def __init__(self, statements):
         self.statements = statements
 
-    def analyze(self, context):
-        for s in self.statements:
-            s.analyze(context)
-
-    def optimize(self):
-        self.statements = [s.optimize() for s in self.statements if s]
-
 
 class Declaration:
     def __init__(self, identifier, initializer):
         self.identifier = identifier
         self.initializer = initializer
-
-    def analyze(self, context):
-        self.initializer.analyze(context)
-        context.add_variable(self.identifier, self)
 
 
 class Assignment:
@@ -36,17 +22,10 @@ class Assignment:
         self.target = target
         self.source = source
 
-    def analyze(self, context):
-        self.source.analyze(context)
-        self.target.analyze(context)
-
 
 class PrintStatement:
     def __init__(self, expression):
         self.expression = expression
-
-    def analyze(self, context):
-        self.expression.analyze(context)
 
 
 class BinaryExpression:
@@ -55,44 +34,31 @@ class BinaryExpression:
         self.left = left
         self.right = right
 
-    def analyze(self, context):
-        self.left.analyze(context)
-        self.right.analyze(context)
-
 
 class UnaryExpression:
     def __init__(self, op, operand):
         self.op = op
         self.operand = operand
 
-    def analyze(self, context):
-        self.operand.analyze(context)
-
 
 class IdentifierExpression:
     def __init__(self, name):
         self.name = name
-
-    def analyze(self, context):
-        self.ref = context.lookup_variable(self.name)
 
 
 class LiteralExpression:
     def __init__(self, value):
         self.value = value
 
-    def analyze(self, context):
-        pass
-
 
 def pretty_print(node, prefix='program', indent=0):
     print(f"{' ' * indent}{prefix}: {type(node).__name__}")
     indent += 2
-    for key, value in node.__dict__.items():
-        if isinstance(value, list):
-            for index, node in enumerate(value):
-                pretty_print(node, f'{key}[{index}]', indent)
-        elif '__dict__' in dir(value):
-            pretty_print(value, key, indent)
+    for attribute, child in node.__dict__.items():
+        if isinstance(child, list):
+            for index, node in enumerate(child):
+                pretty_print(node, f'{attribute}[{index}]', indent)
+        elif '__dict__' in dir(child):
+            pretty_print(child, attribute, indent)
         else:
-            print(f"{' ' * indent}{key}: {value}")
+            print(f"{' ' * indent}{attribute}: {child}")

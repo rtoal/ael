@@ -1,3 +1,24 @@
+"""Scanner
+
+This is a hand-crafted scanner, using no helpers other than the built-in Python
+regular expressions module re. To scan source code, create an instance of the
+Scanner class with the source code, and on demand, invoke
+
+    match(t)
+        Expect the next token to be t or in the set t, consume it, then return
+        it. If the next token is not t or in the set t, raise an Error.
+
+    match()
+        Consume and return the next token, whatever it is.
+
+    at(t)
+        Whether or not the next token is t or in the set t.
+
+Each token is a tuple of the form (category, lexeme). Categories always begin
+with a # character. When calling match or at, you can use either a category
+or a lexeme.
+"""
+
 import re
 
 
@@ -11,6 +32,7 @@ def tokenize(source):
     start = 0
     while start < len(source):
         if match := SKIP.match(source, start):
+            # Always begin by skipping whitespace and comments!
             start = match.end()
             continue
         if match := NUMBER.match(source, start):
