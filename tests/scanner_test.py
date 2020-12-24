@@ -1,4 +1,4 @@
-from scanner import tokenize
+from ael.scanner import tokenize
 
 
 def test_scanner_can_tokenize_the_simplest_program():

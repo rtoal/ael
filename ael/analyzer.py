@@ -49,7 +49,6 @@ def analyze(self, context):
 
 @new_method(BinaryExpression)
 def analyze(self, context):
-
     self.left.analyze(context)
     self.right.analyze(context)
 
@@ -75,7 +74,7 @@ def analyze(program):
     return program
 
 
-def show_graph(program):
+def print_graph(program):
     entities = {}
 
     def add_reachable_entities(node):

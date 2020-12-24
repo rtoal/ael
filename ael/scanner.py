@@ -2,7 +2,7 @@
 
 This is a hand-crafted scanner, using no helpers other than the built-in Python
 regular expressions module re. To scan source code, create an instance of the
-Scanner class with the source code, and on demand, invoke
+Scanner class with the source code, and invoke, as-needed:
 
     match(t)
         Expect the next token to be t or in the set t, consume it, then return

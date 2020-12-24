@@ -51,14 +51,14 @@ class LiteralExpression:
         self.value = value
 
 
-def pretty_print(node, prefix='program', indent=0):
+def print_tree(node, prefix='program', indent=0):
     print(f"{' ' * indent}{prefix}: {type(node).__name__}")
     indent += 2
     for attribute, child in node.__dict__.items():
         if isinstance(child, list):
             for index, node in enumerate(child):
-                pretty_print(node, f'{attribute}[{index}]', indent)
+                print_tree(node, f'{attribute}[{index}]', indent)
         elif '__dict__' in dir(child):
-            pretty_print(child, attribute, indent)
+            print_tree(child, attribute, indent)
         else:
             print(f"{' ' * indent}{attribute}: {child}")
