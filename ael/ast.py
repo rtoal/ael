@@ -1,8 +1,9 @@
 """Abstract Syntax Tree Nodes
 
-This module defines classes for the AST nodes. A pretty print function is
-included since I could not find a built-in one for Python that worked on trees
-of objects (though the built-in pprint does a good job with dictionaries)
+This module defines classes for the AST nodes. Only the initializers are
+defined here. Semantic analysis methods, optimization methods, and code
+generation methods are added in other modules. This keeps the compiler
+organized by phase.
 """
 
 
