@@ -1,8 +1,8 @@
 """Scanner
 
-This is a hand-crafted scanner, using no helpers other than the built-in Python
-regular expressions module re. To scan source code, create an instance of the
-Scanner class with the source code, and invoke, as-needed:
+This is a hand-crafted scanner, using no external libraries at all. To scan,
+create an instance of the Scanner class with the source code as a string, and
+invoke, as-needed:
 
     match(t)
         Expect the next token to be t or in the set t, consume it, then return
@@ -15,8 +15,22 @@ Scanner class with the source code, and invoke, as-needed:
         Whether or not the next token is t or in the set t.
 
 Each token is a tuple of the form (category, lexeme). Categories always begin
-with a # character. When calling match or at, you can use either a category
-or a lexeme.
+with a # character. Examples:L
+
+    ("#IDENTFIER", "x")
+    ("#NUMBER", 32767)
+    ("#SYMBOL", "+")
+    ("#KEYWORD", "let")
+
+When calling match() or at(), you can supply either a category or a lexeme:
+
+    match("#IDENTIFIER")
+    match("=")
+    match({"+", "-", "#NUMBER"})
+    at({"/", "*"})
+
+This module also exports the tokenize function that the scanner uses to
+generate the token sequence, good for inspecting the token stream.
 """
 
 import re
@@ -29,26 +43,26 @@ def tokenize(source):
     IDENTIFIER = re.compile(r'\w+', re.UNICODE)
     SYMBOL = re.compile(r'\+|\-|\*|\/|=|\(|\)')
 
-    start = 0
-    while start < len(source):
-        if match := SKIP.match(source, start):
+    position = 0
+    while position < len(source):
+        if match := SKIP.match(source, position):
             # Always begin by skipping whitespace and comments!
-            start = match.end()
+            position = match.end()
             continue
-        if match := NUMBER.match(source, start):
+        if match := NUMBER.match(source, position):
             category = '#NUMBER'
-        elif match := KEYWORD.match(source, start):
+        elif match := KEYWORD.match(source, position):
             # Keywords are checked BEFORE identifiers so that
             # no identifier can be a keyword
             category = '#KEYWORD'
-        elif match := IDENTIFIER.match(source, start):
+        elif match := IDENTIFIER.match(source, position):
             category = '#IDENTIFIER'
-        elif match := SYMBOL.match(source, start):
+        elif match := SYMBOL.match(source, position):
             category = '#SYMBOL'
         else:
-            raise ValueError(f'Unexpected character: {source[start]}')
+            raise ValueError(f'Unexpected character: {source[position]}')
         yield (category, match.group(0).strip())
-        start = match.end()
+        position = match.end()
     yield ('#END', '')
 
 
