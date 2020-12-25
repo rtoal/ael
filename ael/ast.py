@@ -52,6 +52,11 @@ class LiteralExpression:
 
 
 def print_tree(node, prefix='program', indent=0):
+    # Prints the AST in a nice compact fashion. Written here from scracth
+    # because the built-in Python pprint library has a function that works
+    # fine on dictionaries but not on custom classes (unless you were to
+    # write your own str function for each class). For our purposes, this
+    # simple tree walk actually does a fine job.
     simple_attributes, complex_attributes = "", []
     for attribute, child in node.__dict__.items():
         if isinstance(child, list) or '__dict__' in dir(child):
