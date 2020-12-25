@@ -69,32 +69,39 @@ def analyze(self, context):
 
 
 def analyze(program):
-    """This method is called by the compiler itself to begin the tree walk"""
+    """Called by the compiler itself to begin the tree walk"""
     program.analyze(Context())
     return program
 
 
 def print_graph(program):
-    entities = {}
+    # After semantic analysis, the abstract syntax tree has been transformed
+    # into a graph, so it cannot be dumped as a tree (it might have cycles).
+    # The function prints the transformed graph, one node per line, showing
+    # links to other nodes via a node number. Only the nodes reachable from
+    # the root program node are printed.
+    reachable_nodes = {}
 
-    def add_reachable_entities(node):
-        if node and '__dict__' in dir(node) and node not in entities:
-            entities[node] = len(entities)
+    def compute_reachable_nodes_from(node):
+        if node and '__dict__' in dir(node) and node not in reachable_nodes:
+            reachable_nodes[node] = len(reachable_nodes)
             for key, value in node.__dict__.items():
                 if isinstance(value, list):
                     for n in value:
-                        add_reachable_entities(n)
+                        compute_reachable_nodes_from(n)
                 else:
-                    add_reachable_entities(value)
+                    compute_reachable_nodes_from(value)
 
     def ref(value):
+        # Resolves a value as follows: numbers, strings, and booleans directly
+        # using Python's repr; Nodes with "#" followed by their unique id.
         if isinstance(value, list):
             return f"[{','.join(ref(v) for v in value)}]"
         elif '__dict__' in dir(value):
-            return f'#{entities.get(value)}'
+            return f'${reachable_nodes[value]}'
         return repr(value)
 
-    add_reachable_entities(program)
-    for node, index in entities.items():
+    compute_reachable_nodes_from(program)
+    for node, index in reachable_nodes.items():
         attributes = [f'{k}={ref(v)}' for k, v in node.__dict__.items()]
-        print(f'{index} ({type(node).__name__}) {" ".join(attributes)}')
+        print(f'{index:4} | {type(node).__name__}: {" ".join(attributes)}')

@@ -1,0 +1,4 @@
+let x = 5 * 9
+x = x + (2 - 8) / 8999
+let y = x
+print y / 1

@@ -2,20 +2,27 @@
 
 You can run this compiler from the command line, for example:
 
-    python ael.py -o some/cool/file.ael
+    python ael.py some/cool/file.ael
 
 or simply include this module in a larger app and invoke the compile function:
 
-    compile(source_code_of_some_program, '-o')
+    compile(source_code_of_some_program)
 
-The options are:
-    * `-t`  Print the token stream then stop
-    * `-a`  Print the AST then stop
-    * `-i`  Print the analyzed AST (the semantic graph) then stop
-    * `-o`  Print the optimzed, analyzed AST (the semantic graph) then stop
+to print the target program to standard output. You can also supply an option
+string, which is one of:
 
-You can also invoke without an option string, in which case target code will be
-generated.
+    -t   Print the token stream then stop
+    -a   Print the AST then stop
+    -i   Print the analyzed AST (the semantic graph) then stop
+    -o   Print the optimzed, analyzed AST (the semantic graph) then stop
+
+The option string comes before the filename when invoked on the command line:
+
+    python ael.py -o some/cool/file.ael
+
+or as the second argument to the compile function:
+
+    compile(source_code_of_some_program, '-i')
 """
 
 from scanner import tokenize
