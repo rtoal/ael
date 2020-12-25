@@ -52,13 +52,16 @@ class LiteralExpression:
 
 
 def print_tree(node, prefix='program', indent=0):
-    print(f"{' ' * indent}{prefix}: {type(node).__name__}")
-    indent += 2
+    simple_attributes, complex_attributes = "", []
     for attribute, child in node.__dict__.items():
+        if isinstance(child, list) or '__dict__' in dir(child):
+            complex_attributes.append((attribute, child))
+        else:
+            simple_attributes += f" {attribute}={repr(child)}"
+    print(f"{' ' * indent}{prefix}: {type(node).__name__}{simple_attributes}")
+    for attribute, child in complex_attributes:
         if isinstance(child, list):
             for index, node in enumerate(child):
-                print_tree(node, f'{attribute}[{index}]', indent)
-        elif '__dict__' in dir(child):
-            print_tree(child, attribute, indent)
+                print_tree(node, f'{attribute}[{index}]', indent + 2)
         else:
-            print(f"{' ' * indent}{attribute}: {child}")
+            print_tree(child, attribute, indent + 2)
