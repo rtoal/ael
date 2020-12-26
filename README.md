@@ -32,10 +32,11 @@ Exp         = Term (("+" | "-") Term)*
 Term        = Factor (("*" | "/") Factor)*
 Factor      = num | id | unaryop Factor | "(" Exp ")"
 unaryop     = -|(abs|sqrt)\b
-num         = \d+
+num         = \d+(\.\d+)?
 let         = let\b
 print       = print\b
 id          = \w+
+skip        = \s+|//[^\n]*\n
 ```
 
 ## Running

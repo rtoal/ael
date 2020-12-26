@@ -2,7 +2,7 @@
 
 This is a recursive descent parser. Each category ("non-termnial") gets its
 own parsing function which returns a piece of the Abstract Syntax Tree or
-raises a SyntaxError. More information about Recursive Descent Parsing can
+raises an Exception. More information about Recursive Descent Parsing can
 be found at https://en.wikipedia.org/wiki/Recursive_descent_parser.
 
 The parser is implemented as a single function which creates a scanner when it
@@ -35,7 +35,7 @@ def parse(source_code):
         elif at('print'):
             return parse_print_statement()
         else:
-            raise SyntaxError('Statement expected')
+            raise Exception('Statement expected')
 
     def parse_declaration():
         match('let')

@@ -11,13 +11,13 @@ class Context:
 
     def add_variable(self, name, variable):
         if name in self.locals:
-            raise ValueError(f'Identifier {name} already declared')
+            raise Exception(f'Identifier {name} already declared')
         self.locals[name] = variable
 
     def lookup_variable(self, name):
         if variable := self.locals.get(name):
             return variable
-        raise ValueError('Identifier {name} not declared')
+        raise Exception('Identifier {name} not declared')
 
 
 def new_method(cls):

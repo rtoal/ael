@@ -37,8 +37,8 @@ import re
 
 
 def tokenize(source):
-    SKIP = re.compile(r'\s+')
-    NUMBER = re.compile(r'\d+')
+    SKIP = re.compile(r'\s+|//.*?(\n|$)')
+    NUMBER = re.compile(r'\d+(\.\d+)?')
     KEYWORD = re.compile(r'(let|print|abs|sqrt)\b')
     IDENTIFIER = re.compile(r'\w+', re.UNICODE)
     SYMBOL = re.compile(r'\+|\-|\*|\/|=|\(|\)')
@@ -60,7 +60,7 @@ def tokenize(source):
         elif match := SYMBOL.match(source, position):
             category = '#SYMBOL'
         else:
-            raise ValueError(f'Unexpected character: {source[position]}')
+            raise Exception(f'Unexpected character: {source[position]}')
         yield (category, match.group(0).strip())
         position = match.end()
     yield ('#END', '')
@@ -86,4 +86,4 @@ class Scanner:
             matched_lexeme = self.lexeme
             self.advance()
             return matched_lexeme
-        raise SyntaxError(f'Expected {expected_token}')
+        raise Exception(f'Expected {expected_token}')
