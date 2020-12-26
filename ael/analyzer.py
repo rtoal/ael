@@ -20,55 +20,42 @@ class Context:
         raise Exception('Identifier {name} not declared')
 
 
-def new_method(cls):
-    return lambda f: (setattr(cls, f.__name__, f) or f)
-
-
-@new_method(Program)
-def analyze(self, context):
-    for s in self.statements:
-        s.analyze(context)
-
-
-@new_method(Declaration)
-def analyze(self, context):
-    self.initializer.analyze(context)
-    context.add_variable(self.identifier, self)
-
-
-@new_method(Assignment)
-def analyze(self, context):
-    self.source.analyze(context)
-    self.target.analyze(context)
-
-
-@new_method(PrintStatement)
-def analyze(self, context):
-    self.expression.analyze(context)
-
-
-@new_method(BinaryExpression)
-def analyze(self, context):
-    self.left.analyze(context)
-    self.right.analyze(context)
-
-
-@new_method(UnaryExpression)
-def analyze(self, context):
-    self.operand.analyze(context)
-
-
-@new_method(IdentifierExpression)
-def analyze(self, context):
-    self.ref = context.lookup_variable(self.name)
-
-
-@new_method(LiteralExpression)
-def analyze(self, context):
-    pass
-
-
 def analyze(program):
-    """Called by the compiler itself to begin the tree walk"""
-    program.analyze(Context())
+    # Called by the compiler itself to begin the tree walk
+
+    def analyze(node, context):
+        # Local function to analyze any node, switches on type"""
+
+        def analyze_Program(self, context):
+            for s in self.statements:
+                analyze(s, context)
+
+        def analyze_Declaration(self, context):
+            analyze(self.initializer, context)
+            context.add_variable(self.identifier, self)
+
+        def analyze_Assignment(self, context):
+            analyze(self.source, context)
+            analyze(self.target, context)
+
+        def analyze_PrintStatement(self, context):
+            analyze(self.expression, context)
+
+        def analyze_BinaryExpression(self, context):
+            analyze(self.left, context)
+            analyze(self.right, context)
+
+        def analyze_UnaryExpression(self, context):
+            analyze(self.operand, context)
+
+        def analyze_IdentifierExpression(self, context):
+            self.ref = context.lookup_variable(self.name)
+
+        def analyze_LiteralExpression(self, context):
+            pass
+
+        locals()[f"analyze_{type(node).__name__}"](node, context)
+
+    # Launch the analyzer on the root node with initial context
+    analyze(program, Context())
     return program

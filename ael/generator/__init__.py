@@ -1,8 +1,8 @@
-from ael.generator.js import generate_js
-from ael.generator.c import generate_c
-from ael.generator.llvm import generate_llvm
+import ael.generator.js as js
+import ael.generator.c as c
+import ael.generator.llvm as llvm
 
 generate = {
-    'js': generate_js,
-    'c': generate_c,
-    'llvm': generate_llvm}
+    'js': js.generate,
+    'c': c.generate_c,
+    'llvm': llvm.generate_llvm}

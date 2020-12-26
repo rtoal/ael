@@ -12,94 +12,75 @@ The only optimizations supported here are:
 from ael.ast import *
 
 
-def new_method(cls):
-    return lambda f: (setattr(cls, f.__name__, f) or f)
+def optimize(node):
 
+    def optimize_Program(self):
+        self.statements = [optimize(s) for s in self.statements if s]
+        return self
 
-@new_method(Program)
-def optimize(self):
-    self.statements = [s.optimize() for s in self.statements if s]
-    return self
+    def optimize_Declaration(self):
+        self.initializer = optimize(self.initializer)
+        return self
 
+    def optimize_Assignment(self):
+        self.source = optimize(self.source)
+        self.target = optimize(self.target)
+        if isinstance(self.source, IdentifierExpression):
+            if self.source.ref == self.target.ref:
+                return None
+        return self
 
-@new_method(Declaration)
-def optimize(self):
-    self.initializer = self.initializer.optimize()
-    return self
+    def optimize_PrintStatement(self):
+        self.expression = optimize(self.expression)
+        return self
 
-
-@new_method(Assignment)
-def optimize(self):
-    self.source = self.source.optimize()
-    self.target = self.target.optimize()
-    if isinstance(self.source, IdentifierExpression):
-        if self.source.ref == self.target.ref:
-            return None
-    return self
-
-
-@ new_method(PrintStatement)
-def optimize(self):
-    self.expression = self.expression.optimize()
-    return self
-
-
-@ new_method(BinaryExpression)
-def optimize(self):
-    # Constant folding and a number of strength reductions!
-    self.left = self.left.optimize()
-    self.right = self.right.optimize()
-    if isinstance(self.left, LiteralExpression):
-        x = self.left.value
-        if isinstance(self.right, LiteralExpression):
+    def optimize_BinaryExpression(self):
+        # Constant folding and a number of strength reductions!
+        self.left = optimize(self.left)
+        self.right = optimize(self.right)
+        if isinstance(self.left, LiteralExpression):
+            x = self.left.value
+            if isinstance(self.right, LiteralExpression):
+                y = self.right.value
+                if self.op == '+':
+                    return LiteralExpression(x + y)
+                elif self.op == '-':
+                    return LiteralExpression(x - y)
+                elif self.op == '*':
+                    return LiteralExpression(x * y)
+                elif self.op == '/':
+                    return LiteralExpression(x / y)
+            elif (x, self.op) in ((0, '+'), (1, '*')):
+                return self.right
+            elif (x, self.op) == (0, '-'):
+                return LiteralExpression(-self.right.value)
+            elif (x, self.op) in ((0, '*'), (0, '/')):
+                return LiteralExpression(0)
+        elif isinstance(self.right, LiteralExpression):
             y = self.right.value
-            if self.op == '+':
-                return LiteralExpression(x + y)
-            elif self.op == '-':
-                return LiteralExpression(x - y)
-            elif self.op == '*':
-                return LiteralExpression(x * y)
-            elif self.op == '/':
-                return LiteralExpression(x / y)
-        elif (x, self.op) in ((0, '+'), (1, '*')):
-            return self.right
-        elif (x, self.op) == (0, '-'):
-            return LiteralExpression(-self.right.value)
-        elif (x, self.op) in ((0, '*'), (0, '/')):
-            return LiteralExpression(0)
-    elif isinstance(self.right, LiteralExpression):
-        y = self.right.value
-        if (self.op, y) in (('+', 0), ('-', 0), ('*', 1), ('/', 1)):
-            return self.left
-        if (self.op, y) == ('*', 0):
-            return LiteralExpression(0)
-    return self
+            if (self.op, y) in (('+', 0), ('-', 0), ('*', 1), ('/', 1)):
+                return self.left
+            if (self.op, y) == ('*', 0):
+                return LiteralExpression(0)
+        return self
 
+    def optimize_UnaryExpression(self):
+        import math
+        self.operand = optimize(self.operand)
+        if isinstance(self.operand, LiteralExpression):
+            x = self.operand.value
+            if self.op == '-':
+                return LiteralExpression(-x)
+            elif self.op == 'abs':
+                return LiteralExpression(abs(x))
+            elif self.op == 'sqrt':
+                return LiteralExpression(math.sqrt(x))
+        return self
 
-@ new_method(UnaryExpression)
-def optimize(self):
-    import math
-    self.operand = self.operand.optimize()
-    if isinstance(self.operand, LiteralExpression):
-        x = self.operand.value
-        if self.op == '-':
-            return LiteralExpression(-x)
-        elif self.op == 'abs':
-            return LiteralExpression(abs(x))
-        elif self.op == 'sqrt':
-            return LiteralExpression(math.sqrt(x))
-    return self
+    def optimize_IdentifierExpression(self):
+        return self
 
+    def optimize_LiteralExpression(self):
+        return self
 
-@ new_method(IdentifierExpression)
-def optimize(self):
-    return self
-
-
-@ new_method(LiteralExpression)
-def optimize(self):
-    return self
-
-
-def optimize(program):
-    return program.optimize()
+    return locals()[f"optimize_{type(node).__name__}"](node)
