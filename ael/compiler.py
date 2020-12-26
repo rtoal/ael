@@ -22,8 +22,7 @@ what to print to standard output:
 
 from scanner import tokenize
 from parser import parse
-from ast import print_tree
-from analyzer import analyze, print_graph
+from analyzer import analyze
 from optimizer import optimize
 from generator import generate
 
@@ -33,11 +32,11 @@ def compile(source, output_type):
         for token in tokenize(source):
             print(token)
     elif output_type == 'ast':
-        print_tree(parse(source))
+        print(parse(source))
     elif output_type == 'analyzed':
-        print_graph(analyze(parse(source)))
+        print(analyze(parse(source)))
     elif output_type == 'optimized':
-        print_graph(optimize(analyze(parse(source))))
+        print(optimize(analyze(parse(source))))
     elif output_type in ('js', 'c', 'llvm'):
         print(generate[output_type](optimize(analyze(parse(source)))))
     else:

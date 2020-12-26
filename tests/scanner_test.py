@@ -2,10 +2,11 @@ import pytest
 from ael.scanner import tokenize
 
 
-def test_scanner_can_tokenize_the_simplest_program():
+def test_scanner_can_tokenize_the_simplest_source():
     source = "   0   "
-    tokens = list(tokenize(source))
-    assert tokens == [('#NUMBER', '0'), ('#END', '')]
+    assert list(tokenize(source)) == [
+        ('#NUMBER', '0'),
+        ('#END', '')]
 
 
 def test_scanner_can_tokenize_a_program_with_all_tokens():
@@ -16,8 +17,7 @@ def test_scanner_can_tokenize_a_program_with_all_tokens():
         // that was a blank line
         print y / 1.2
         """
-    tokens = list(tokenize(source))
-    assert tokens == [
+    assert list(tokenize(source)) == [
         ('#KEYWORD', 'let'),
         ('#IDENTIFIER', 'x'),
         ('#SYMBOL', '='),
@@ -58,7 +58,9 @@ def test_scanner_distinguishes_keywords_and_identifiers():
 
 def test_scanner_allows_comment_on_last_line():
     source = "2//5"
-    assert list(tokenize(source)) == [('#NUMBER', '2'), ('#END', '')]
+    assert list(tokenize(source)) == [
+        ('#NUMBER', '2'),
+        ('#END', '')]
 
 
 @pytest.mark.parametrize("source", [
