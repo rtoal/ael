@@ -9,10 +9,10 @@ The parser is implemented as a single function which creates a scanner when it
 begins.
 """
 
-from scanner import Scanner
-from ast import Program, Declaration, Assignment, PrintStatement
-from ast import IdentifierExpression, LiteralExpression
-from ast import BinaryExpression, UnaryExpression
+from ael.scanner import Scanner
+from ael.ast import Program, Declaration, Assignment, PrintStatement
+from ael.ast import IdentifierExpression, LiteralExpression
+from ael.ast import BinaryExpression, UnaryExpression
 
 
 def parse(source_code):
@@ -72,7 +72,9 @@ def parse(source_code):
 
     def parse_factor():
         if at('#NUMBER'):
-            return LiteralExpression(int(match()))
+            value = float(match())
+            return LiteralExpression(
+                int(value) if int(value) == value else value)
         if at('#IDENTIFIER'):
             return IdentifierExpression(match())
         if at({'-', 'abs', 'sqrt'}):

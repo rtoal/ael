@@ -20,11 +20,11 @@ what to print to standard output:
     llvm       the translation to LLVM
 """
 
-from scanner import tokenize
-from parser import parse
-from analyzer import analyze
-from optimizer import optimize
-from generator import generate
+from ael.scanner import tokenize
+from ael.parser import parse
+from ael.analyzer import analyze
+from ael.optimizer import optimize
+from ael.generator import generate
 
 
 def compile(source, output_type):
