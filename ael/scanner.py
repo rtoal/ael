@@ -6,7 +6,7 @@ invoke, as-needed:
 
     match(t)
         Expect the next token to be t or in the set t, consume it, then return
-        it. If the next token is not t or in the set t, raise an Error.
+        its lexeme. If the next token is not t or in the set t, raise an Error.
 
     match()
         Consume and return the next token, whatever it is.
@@ -14,8 +14,8 @@ invoke, as-needed:
     at(t)
         Whether or not the next token is t or in the set t.
 
-Each token is a tuple of the form (category, lexeme). Categories always begin
-with a # character. Examples:L
+Tokens are represented internally as tuples of the form (category, lexeme).
+Categories always begin with a # character. Examples:
 
     ("#IDENTFIER", "x")
     ("#NUMBER", 32767)

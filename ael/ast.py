@@ -2,8 +2,8 @@
 
 This module defines classes for the AST nodes. Only the initializers are
 defined here. Semantic analysis methods, optimization methods, and code
-generation methods are added in other modules. This keeps the compiler
-organized by phase.
+generation are handled by other modules. This keeps the compiler organized
+by phase.
 """
 
 from io import StringIO

@@ -1,12 +1,13 @@
 """Optimizer
 
-This module does machine independent optimizations on the AST.
+This module does machine independent optimizations on the analyzed semantic
+graph.
 
 The only optimizations supported here are:
 
     - assignments to self turn into no-ops
     - constant folding
-    - some strength reductions
+    - some strength reductions (+0, -0, *0, *1, etc.)
 """
 
 from ael.ast import *
@@ -14,15 +15,15 @@ from ael.ast import *
 
 def optimize(node):
 
-    def optimize_Program(self):
+    def optimizeProgram(self):
         self.statements = [optimize(s) for s in self.statements if s]
         return self
 
-    def optimize_Declaration(self):
+    def optimizeDeclaration(self):
         self.initializer = optimize(self.initializer)
         return self
 
-    def optimize_Assignment(self):
+    def optimizeAssignment(self):
         self.source = optimize(self.source)
         self.target = optimize(self.target)
         if isinstance(self.source, IdentifierExpression):
@@ -30,11 +31,11 @@ def optimize(node):
                 return None
         return self
 
-    def optimize_PrintStatement(self):
+    def optimizePrintStatement(self):
         self.expression = optimize(self.expression)
         return self
 
-    def optimize_BinaryExpression(self):
+    def optimizeBinaryExpression(self):
         # Constant folding and a number of strength reductions!
         self.left = optimize(self.left)
         self.right = optimize(self.right)
@@ -64,7 +65,7 @@ def optimize(node):
                 return LiteralExpression(0)
         return self
 
-    def optimize_UnaryExpression(self):
+    def optimizeUnaryExpression(self):
         import math
         self.operand = optimize(self.operand)
         if isinstance(self.operand, LiteralExpression):
@@ -77,10 +78,10 @@ def optimize(node):
                 return LiteralExpression(math.sqrt(x))
         return self
 
-    def optimize_IdentifierExpression(self):
+    def optimizeIdentifierExpression(self):
         return self
 
-    def optimize_LiteralExpression(self):
+    def optimizeLiteralExpression(self):
         return self
 
-    return locals()[f"optimize_{type(node).__name__}"](node)
+    return locals()[f"optimize{type(node).__name__}"](node)

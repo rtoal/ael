@@ -2,14 +2,13 @@
 
 You can run this compiler from the command line, for example:
 
-    ./aelc some/cool/file.ael output_type
+    ./aelc some/cool/file.ael js
 
 or simply include this module in a larger app and invoke the compile function:
 
-    compile(source_code_of_some_program, output_type)
+    compile(source_code_of_some_program, 'c')
 
-to print the target program to standard output. The option tells the compiler
-what to print to standard output:
+The second argument tells the compiler what to print to standard output:
 
     tokens     the token sequence
     ast        the abstract syntax tree
@@ -48,6 +47,6 @@ if __name__ == '__main__':
     import sys
     import pathlib
     if len(sys.argv) != 3:
-        print('Syntax: aelc filename output_type')
+        print('Syntax: aelc <filename> <output_type>')
     else:
         compile(pathlib.Path(sys.argv[1]).read_text(), sys.argv[2])

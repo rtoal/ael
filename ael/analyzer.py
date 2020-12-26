@@ -1,3 +1,17 @@
+"""Semantic Analyzer
+
+Analyzes the AST by looking for semantic errors and resolving references. As
+Ael is such a trivial language (with no static types, no loops, no functions,
+no nested scopes), the only semantic errors detected are:
+
+    - redeclaration of an identifier
+    - use of an identifier that has not been declared
+
+Checks are made relative to a semantic context that is passed to the analyzer
+function for each node. Since there is only one "scope" in Ael, there's only
+one context, but in more complex languages things get much more interesting.
+"""
+
 from ael.ast import *
 
 
@@ -26,35 +40,36 @@ def analyze(program):
     def analyze(node, context):
         # Local function to analyze any node, switches on type"""
 
-        def analyze_Program(self, context):
+        def analyzeProgram(self, context):
             for s in self.statements:
                 analyze(s, context)
 
-        def analyze_Declaration(self, context):
+        def analyzeDeclaration(self, context):
             analyze(self.initializer, context)
             context.add_variable(self.identifier, self)
 
-        def analyze_Assignment(self, context):
+        def analyzeAssignment(self, context):
             analyze(self.source, context)
             analyze(self.target, context)
 
-        def analyze_PrintStatement(self, context):
+        def analyzePrintStatement(self, context):
             analyze(self.expression, context)
 
-        def analyze_BinaryExpression(self, context):
+        def analyzeBinaryExpression(self, context):
             analyze(self.left, context)
             analyze(self.right, context)
 
-        def analyze_UnaryExpression(self, context):
+        def analyzeUnaryExpression(self, context):
             analyze(self.operand, context)
 
-        def analyze_IdentifierExpression(self, context):
+        def analyzeIdentifierExpression(self, context):
+            # All identifiers must already be declared
             self.ref = context.lookup_variable(self.name)
 
-        def analyze_LiteralExpression(self, context):
+        def analyzeLiteralExpression(self, context):
             pass
 
-        locals()[f"analyze_{type(node).__name__}"](node, context)
+        locals()[f"analyze{type(node).__name__}"](node, context)
 
     # Launch the analyzer on the root node with initial context
     analyze(program, Context())
