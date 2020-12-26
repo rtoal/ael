@@ -73,15 +73,17 @@ def parse(source_code):
             value = float(match())
             return LiteralExpression(
                 int(value) if int(value) == value else value)
-        if at('#IDENTIFIER'):
+        elif at('#IDENTIFIER'):
             return IdentifierExpression(match())
-        if at({'-', 'abs', 'sqrt'}):
+        elif at({'-', 'abs', 'sqrt'}):
             op = match()
             return UnaryExpression(op, parse_expression())
-        if at('('):
+        elif at('('):
             match()
             e = parse_expression()
             match(')')
             return e
+        else:
+            raise Exception('Expected id, number, operator, or "(')
 
     return parse_program()

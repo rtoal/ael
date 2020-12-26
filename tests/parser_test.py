@@ -21,3 +21,17 @@ def test_parser_can_parse_another_simple_program():
             Assignment(
                 IdentifierExpression('dog'),
                 UnaryExpression('sqrt', LiteralExpression(101.3)))]))
+
+
+def test_parser_can_parse_program_with_everything():
+    pass
+
+
+@pytest.mark.parametrize("source", [
+    "print 5 -",
+    "print 7 * ((2 _ 3)",
+    "print )",
+    "let x = * 71"])
+def test_parser_can_detect_lots_of_errors(source):
+    with pytest.raises(Exception):
+        print(parse(source))
