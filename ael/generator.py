@@ -1,2 +1,0 @@
-def generate(program):
-    pass

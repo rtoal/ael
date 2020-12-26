@@ -28,6 +28,7 @@ from ael.generator import generate
 
 
 def compile(source, output_type):
+    output_type = output_type.lower()
     if output_type == 'tokens':
         for token in tokenize(source):
             print(token)
