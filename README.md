@@ -1,10 +1,10 @@
-# ael
+# Ael
 
 This is a compiler for the language **Ael** written completely from scratch with no external libraries. Why? This is an introductory example for a compiler course.
 
 Ael stands for (A)rithmetic (E)xpression (L)anguage. It’s the language of arithmetic expressions over integers, limited to `+`, `-`, `*`, `/`, `abs`, `sqrt`, and parentheses, together with declarations, assignments, and print statements. The idea is to give the language _just enough_ to (1) illustrate the difference between statements and expressions, (2) have something to do during semantic analysis, and (3) allow for more than one optimization.
 
-In the spirit of an introductory tutorial, this compiler features multiple backends: it can generate JavaScript, C, and LLVM. Why not assembly? Well, LLVM, these days, is plenty far enough for an introductory example.
+In the spirit of an introductory tutorial, this compiler features multiple backends: it can generate JavaScript, C, and LLVM. Why not assembly? Well, LLVM, these days, takes things plenty far enough along for an introductory example.
 
 ## Sample Program
 
@@ -44,16 +44,18 @@ The compiler is written in fairly modern Python. You will need version 3.8 or ab
 Because this is an illustration of compiler writing, there are command line options that expose what each of the compiler phases are doing:
 
 ```
-python ael/compiler.py &lt;filename> &lt;output_type>
+python ael/compiler.py <filename> <output_type>
 ```
 
-- `tokens` &nbsp;&nbsp; Outputs the token sequence
-- `ast` &nbsp;&nbsp; Outputs abstract syntax tree
-- `analyzed` &nbsp;&nbsp; Outputs the semantically analyzed representation
-- `optimized` &nbsp;&nbsp; Outputs optimized semantically analyzed representation
-- `js` &nbsp;&nbsp; Outputs the translation to JavaScript
-- `c` &nbsp;&nbsp; Outputs the translation to C
-- `llvm` &nbsp;&nbsp; Outputs the translation to LLVM
+The output type argument tells the compiler what to print to standard output:
+
+- `tokens` &nbsp;&nbsp; the token sequence
+- `ast` &nbsp;&nbsp; the abstract syntax tree
+- `analyzed` &nbsp;&nbsp; the semantically analyzed representation
+- `optimized` &nbsp;&nbsp; the optimized semantically analyzed representation
+- `js` &nbsp;&nbsp; the translation to JavaScript
+- `c` &nbsp;&nbsp; the translation to C
+- `llvm` &nbsp;&nbsp; the translation to LLVM
 
 To keep things simple, the compiler will halt on the first error it finds.
 
