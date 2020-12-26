@@ -1,6 +1,10 @@
 # ael
 
-This is aompiler for the language **Ael** written completely from scratch with no external libraries. Ael stands for (A)rithmetic (E)xpression (L)anguage. It’s the language of arithmetic expressions over integers, limited to `+`, `-`, `*`, `/`, `abs`, `sqrt`, and parentheses. The purpose of this language is to serve as an introductory example for compiler writing, so the language throws in declarations, assignments, and print statements to illustrate the difference between statements and expressions, and to have _something_ to do during semantic analysis.
+This is a compiler for the language **Ael** written completely from scratch with no external libraries. Why? This is an introductory example for a compiler course.
+
+Ael stands for (A)rithmetic (E)xpression (L)anguage. It’s the language of arithmetic expressions over integers, limited to `+`, `-`, `*`, `/`, `abs`, `sqrt`, and parentheses, together with declarations, assignments, and print statements. The idea is to give the language _just enough_ to (1) illustrate the difference between statements and expressions, (2) have something to do during semantic analysis, and (3) allow for more than one optimization.
+
+In the spirit of an introductory tutorial, this compiler features multiple backends: it can generate JavaScript, C, and LLVM. Why not assembly? Well, LLVM, these days, is plenty far enough for an introductory example.
 
 ## Sample Program
 
@@ -16,7 +20,7 @@ print y / sqrt 3
 
 ## Grammar
 
-Here is the grammar of the language:
+Here is the grammar of the language. Non-terminals begin with a capital letter, and their right-hand sides allow for skips (whitespace and comments) between each term. The tokens themselves begin with lowercase letters and their right-hand sides are [Python regular expressions](https://docs.python.org/3/library/re.html) in Unicode mode.
 
 ```
 Program     = Stmt+
@@ -39,22 +43,17 @@ The compiler is written in fairly modern Python. You will need version 3.8 or ab
 
 Because this is an illustration of compiler writing, there are command line options that expose what each of the compiler phases are doing:
 
-<dl>
- <dt><code>ael -t myprogram.ael</code></dt>
-<dd>Dumps the token sequence of <code>myprogram.ael</code> then stops</dd>
+```
+python ael/compiler.py &lt;filename> &lt;output_type>
+```
 
-<dt><code>ael -a myprogram.ael</code></dt>
-<dd>Dumps the abstract syntax tree <code>myprogram.ael</code> then stops</dd>
-
-<dt><code>ael -i myprogram.ael</code></dt>
-<dd>Dumps the semantic-checked graph of <code>myprogram.ael</code> then stops</dd>
-
-<dt><code>ael -o myprogram.ael</code></dt>
-<dd>Dumps the optimized semantic-checked graph of <code>myprogram.ael</code> then stops</dd>
-
-<dt><code>ael myprogram.ael</code></dt>
-<dd>Outputs the target code for <code>myprogram.ael</code></dd>
-</dl>
+- `tokens` &nbsp;&nbsp; Outputs the token sequence
+- `ast` &nbsp;&nbsp; Outputs abstract syntax tree
+- `analyzed` &nbsp;&nbsp; Outputs the semantically analyzed representation
+- `optimized` &nbsp;&nbsp; Outputs optimized semantically analyzed representation
+- `js` &nbsp;&nbsp; Outputs the translation to JavaScript
+- `c` &nbsp;&nbsp; Outputs the translation to C
+- `llvm` &nbsp;&nbsp; Outputs the translation to LLVM
 
 To keep things simple, the compiler will halt on the first error it finds.
 
