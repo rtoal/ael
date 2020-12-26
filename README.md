@@ -64,3 +64,9 @@ To keep things simple, the compiler will halt on the first error it finds.
 ## Contributing
 
 I’m happy to take PRs. As usual, be nice when filing issues and contributing. Do remember the idea is to keep the language tiny; if you’d like to extend the language, you’re probably better forking into a new project. However, I would _love_ to see any improvements you might have for the implementation or the pedagogy.
+
+When developing, you can run tests with:
+
+```
+coverage run --source ael -m pytest tests && coverage report -m
+```
