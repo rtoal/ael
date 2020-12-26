@@ -45,9 +45,9 @@ def compile(source, output_type):
 
 
 if __name__ == '__main__':
-    from sys import argv
-    from pathlib import Path
-    if len(argv) != 3:
+    import sys
+    import pathlib
+    if len(sys.argv) != 3:
         print('Syntax: python ael/compiler.py filename output_type')
     else:
-        compile(Path(argv[1]).read_text(), argv[2])
+        compile(pathlib.Path(sys.argv[1]).read_text(), sys.argv[2])

@@ -72,7 +72,7 @@ def parse(source_code):
 
     def parse_factor():
         if at('#NUMBER'):
-            return LiteralExpression(match())
+            return LiteralExpression(int(match()))
         if at('#IDENTIFIER'):
             return IdentifierExpression(match())
         if at({'-', 'abs', 'sqrt'}):
