@@ -18,8 +18,8 @@ class Program:
 
 
 class Declaration:
-    def __init__(self, identifier, initializer):
-        self.identifier = identifier
+    def __init__(self, name, initializer):
+        self.name = name
         self.initializer = initializer
 
 

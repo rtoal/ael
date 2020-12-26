@@ -52,10 +52,10 @@ def tokenize(source):
         if match := NUMBER.match(source, position):
             category = '#NUMBER'
         elif match := KEYWORD.match(source, position):
-            # Keywords are checked BEFORE identifiers so that
-            # no identifier can be a keyword
+            # Must check keywords BEFORE identifiers!
             category = '#KEYWORD'
         elif match := IDENTIFIER.match(source, position):
+            # Will only match if it was not a keyword matched earler
             category = '#IDENTIFIER'
         elif match := SYMBOL.match(source, position):
             category = '#SYMBOL'

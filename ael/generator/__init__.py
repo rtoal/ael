@@ -4,5 +4,5 @@ import ael.generator.llvm as llvm
 
 generate = {
     'js': js.generate,
-    'c': c.generate_c,
-    'llvm': llvm.generate_llvm}
+    'c': c.generate,
+    'llvm': llvm.generate}

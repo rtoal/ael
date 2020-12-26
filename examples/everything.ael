@@ -1,5 +1,5 @@
 // Has all syntactic forms
 let x = 5 * 9
 x = x + (2 - 8) / -8999.235
-let y = x
-print y / 1
+let y = abs (x - 5)
+print -y / sqrt y

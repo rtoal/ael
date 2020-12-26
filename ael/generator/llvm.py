@@ -1,2 +1,2 @@
-def generate_llvm(program):
+def generate(program):
     return "LLVM generation coming soon"

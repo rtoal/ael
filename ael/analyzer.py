@@ -46,7 +46,7 @@ def analyze(program):
 
         def analyzeDeclaration(self, context):
             analyze(self.initializer, context)
-            context.add_variable(self.identifier, self)
+            context.add_variable(self.name, self)
 
         def analyzeAssignment(self, context):
             analyze(self.source, context)
