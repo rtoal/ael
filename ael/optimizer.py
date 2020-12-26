@@ -9,9 +9,7 @@ The only optimizations supported here are:
     - some strength reductions
 """
 
-from ael.ast import Program, Declaration, Assignment, PrintStatement
-from ael.ast import IdentifierExpression, LiteralExpression
-from ael.ast import BinaryExpression, UnaryExpression
+from ael.ast import *
 
 
 def new_method(cls):
