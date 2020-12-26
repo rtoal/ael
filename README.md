@@ -20,20 +20,21 @@ print y / sqrt 3
 
 ## Grammar
 
-Here is the grammar of the language. Non-terminals begin with a capital letter, and their right-hand sides allow for skips (whitespace and comments) between each term. The tokens themselves begin with lowercase letters and their right-hand sides are [Python regular expressions](https://docs.python.org/3/library/re.html) in Unicode mode.
+Here is the grammar of the language. Non-terminals begin with a capital letter, and their right-hand sides allow for skips (whitespace and comments) between each term. The token rules begin with lowercase letters and their right-hand sides are [Python regular expressions](https://docs.python.org/3/library/re.html) in Unicode mode; they are also meant to be processed in order, so that keywords are “matched” before identifiers.
 
 ```
 Program     = Stmt+
 Stmt        = Decl | AssignStmt | PrintStmt
-Decl        = "let" id "=" Exp
+Decl        = let id "=" Exp
 AssignStmt  = id "=" Exp
-PrintStmt   = "print" Exp
+PrintStmt   = print Exp
 Exp         = Term (("+" | "-") Term)*
 Term        = Factor (("*" | "/") Factor)*
 Factor      = num | id | unaryop Factor | "(" Exp ")"
 unaryop     = -|(abs|sqrt)\b
 num         = \d+
-keyword     = (let|print|abs|sqrt)\b
+let         = let\b
+print       = print\b
 id          = \w+
 ```
 

@@ -2,27 +2,22 @@
 
 You can run this compiler from the command line, for example:
 
-    python ael.py some/cool/file.ael
+    python ael/compiler.py some/cool/file.ael output_type
 
 or simply include this module in a larger app and invoke the compile function:
 
-    compile(source_code_of_some_program)
+    compile(source_code_of_some_program, output_type)
 
-to print the target program to standard output. You can also supply an option
-string, which is one of:
+to print the target program to standard output. The option tells the compiler
+what to print to standard output:
 
-    -t   Print the token stream then stop
-    -a   Print the AST then stop
-    -i   Print the analyzed AST (the semantic graph) then stop
-    -o   Print the optimzed, analyzed AST (the semantic graph) then stop
-
-The option string comes before the filename when invoked on the command line:
-
-    python ael.py -o some/cool/file.ael
-
-or as the second argument to the compile function:
-
-    compile(source_code_of_some_program, '-i')
+    tokens     the token sequence
+    ast        the abstract syntax tree
+    analyzed   the semantically analyzed representation
+    optimized  the optimized semantically analyzed representation
+    js         the translation to JavaScript
+    c          the translation to C
+    llvm       the translation to LLVM
 """
 
 from scanner import tokenize
@@ -33,30 +28,26 @@ from optimizer import optimize
 from generator import generate
 
 
-def compile(source, options):
-    if options == '-t':
+def compile(source, output_type):
+    if output_type == 'tokens':
         for token in tokenize(source):
             print(token)
-    elif options == '-a':
+    elif output_type == 'ast':
         print_tree(parse(source))
-    elif options == '-i':
+    elif output_type == 'analyzed':
         print_graph(analyze(parse(source)))
-    elif options == '-o':
+    elif output_type == 'optimized':
         print_graph(optimize(analyze(parse(source))))
-    elif options is None:
-        print(generate(optimize(analyze(parse(source)))))
+    elif output_type in ('js', 'c', 'llvm'):
+        print(generate[output_type](optimize(analyze(parse(source)))))
     else:
-        print(f'Unrecognized option, only -t, -a, -i, -o are allowed')
+        print('Unrecognized output type')
 
 
 if __name__ == '__main__':
     from sys import argv
     from pathlib import Path
-    has_option = len(argv) > 1 and argv[1].startswith('-')
-    has_filename = len(argv) > 2 if has_option else len(argv) > 1
-    if not has_filename:
-        print('Filename expected')
+    if len(argv) != 3:
+        print('Syntax: python ael/compiler.py filename output_type')
     else:
-        filename = argv[2] if has_option else argv[1]
-        options = argv[1] if has_option else None
-        compile(Path(filename).read_text(), options=options)
+        compile(Path(argv[1]).read_text(), argv[2])
