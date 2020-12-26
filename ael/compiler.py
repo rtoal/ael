@@ -2,7 +2,7 @@
 
 You can run this compiler from the command line, for example:
 
-    python ael/compiler.py some/cool/file.ael output_type
+    ./aelc some/cool/file.ael output_type
 
 or simply include this module in a larger app and invoke the compile function:
 
@@ -47,6 +47,6 @@ if __name__ == '__main__':
     import sys
     import pathlib
     if len(sys.argv) != 3:
-        print('Syntax: python ael/compiler.py filename output_type')
+        print('Syntax: aelc filename output_type')
     else:
         compile(pathlib.Path(sys.argv[1]).read_text(), sys.argv[2])

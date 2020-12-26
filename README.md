@@ -46,7 +46,7 @@ The compiler is written in fairly modern Python. You will need version 3.8 or ab
 Because this is an illustration of compiler writing, there are command line options that expose what each of the compiler phases are doing:
 
 ```
-python ael/compiler.py <filename> <output_type>
+./aelc <filename> <output_type>
 ```
 
 The output type argument tells the compiler what to print to standard output:
