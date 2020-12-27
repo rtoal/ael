@@ -1,1 +1,25 @@
-PYTHONPATH=. python3 ael/compiler.py $@
+#! /usr/bin/env python3
+
+from sys import argv
+from pathlib import Path
+from ael.compiler import compile
+
+help = """Ael compiler
+
+Syntax: aelc <filename> <output_type>
+
+Prints to stdout according to <output_type>, which must be one of:
+
+    tokens     the token sequence
+    ast        the abstract syntax tree
+    analyzed   the semantically analyzed representation
+    optimized  the optimized semantically analyzed representation
+    js         the translation to JavaScript
+    c          the translation to C
+    llvm       the translation to LLVM
+"""
+
+if len(argv) != 3:
+    print(help)
+else:
+    compile(Path(argv[1]).read_text(), argv[2])

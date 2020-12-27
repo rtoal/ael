@@ -40,13 +40,4 @@ def compile(source, output_type):
     elif output_type in ('js', 'c', 'llvm'):
         print(generate[output_type](optimize(analyze(parse(source)))))
     else:
-        print('Unrecognized output type')
-
-
-if __name__ == '__main__':
-    import sys
-    import pathlib
-    if len(sys.argv) != 3:
-        print('Syntax: aelc <filename> <output_type>')
-    else:
-        compile(pathlib.Path(sys.argv[1]).read_text(), sys.argv[2])
+        print('Unknown output type')
