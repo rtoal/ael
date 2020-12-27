@@ -60,7 +60,7 @@ def tokenize(source):
         elif match := SYMBOL.match(source, position):
             category = '#SYMBOL'
         else:
-            raise Exception(f'Unexpected character: {source[position]}')
+            raise Exception(f"Unexpected character: '{source[position]}'")
         yield (category, match.group(0).strip())
         position = match.end()
     yield ('#END', '')
@@ -81,9 +81,9 @@ class Scanner:
             return self.category == candidate
         return self.lexeme == candidate
 
-    def match(self, expected_token=None):
+    def match(self, expected_token=None, if_no_match=None):
         if expected_token is None or self.at(expected_token):
             matched_lexeme = self.lexeme
             self.advance()
             return matched_lexeme
-        raise Exception(f'Expected {expected_token}')
+        raise Exception(if_no_match or f"Expected '{expected_token}'")

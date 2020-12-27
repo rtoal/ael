@@ -21,7 +21,7 @@ def parse(source_code):
     def parse_program():
         statements = []
         statements.append(parse_statement())
-        while at({'#IDENTIFIER', 'let', 'print'}):
+        while not at('#END'):
             statements.append(parse_statement())
         return Program(statements)
 
@@ -84,6 +84,6 @@ def parse(source_code):
             match(')')
             return e
         else:
-            raise Exception('Expected id, number, operator, or "(')
+            raise Exception("Expected id, number, unary operator, or '('")
 
     return parse_program()

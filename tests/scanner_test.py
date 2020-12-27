@@ -69,5 +69,5 @@ def test_scanner_allows_comment_on_last_line():
     ("9+--2z!", r"!"),
     ("x&y", r"&")])
 def test_scanner_detects_lexical_errors(source, bad):
-    with pytest.raises(Exception, match=f"Unexpected character: {bad}"):
+    with pytest.raises(Exception, match=f"Unexpected character: '{bad}'"):
         list(tokenize(source))
