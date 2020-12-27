@@ -31,7 +31,7 @@ class Context:
     def lookup_variable(self, name):
         if variable := self.locals.get(name):
             return variable
-        raise Exception('Identifier {name} not declared')
+        raise Exception(f'Identifier {name} not declared')
 
 
 def analyze(program):

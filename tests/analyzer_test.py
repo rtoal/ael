@@ -24,9 +24,9 @@ def test_analyzer_can_analyze_all_the_nodes():
 """
 
 
-@pytest.mark.parametrize("source", [
-    "print x",                # Undeclared identifier
-    "let x = 1\nlet x = 1"])   # Redeclared identifier
-def test_analyzer_can_detect_all_the_errors(source):
-    with pytest.raises(Exception):
-        print(analyze(parse(source)))
+@pytest.mark.parametrize("source, bad", [
+    ("print x", r"Identifier x not declared"),
+    ("let x = 1\nlet x = 1", r"Identifier x already declared")])
+def test_analyzer_can_detect_all_the_errors(source, bad):
+    with pytest.raises(Exception, match=bad):
+        analyze(parse(source))
