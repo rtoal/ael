@@ -36,14 +36,14 @@ num         = \d+(\.\d+)?
 let         = let\b
 print       = print\b
 id          = \w+
-skip        = \s+|//[^\n]*\n
+skip        = \s+|//.*?(\n|$)
 ```
 
 ## Running
 
-The compiler is written in fairly modern Python. You will need version 3.8 or above.
+The compiler is written in modern Python. You will need version 3.8 or above.
 
-Because this is an illustration of compiler writing, there are command line options that expose what each of the compiler phases are doing:
+Because this application was written as a tutorial, the compiler exposes what each phase does, as well as providing multiple translations:
 
 ```
 ./aelc <filename> <output_type>
