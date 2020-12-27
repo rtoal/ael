@@ -63,11 +63,11 @@ def test_scanner_allows_comment_on_last_line():
         ('#END', '')]
 
 
-@pytest.mark.parametrize("source", [
-    "1. hello",
-    "9 )$",
-    "9+--2z!",
-    "x&y"])
-def test_scanner_detects_lexical_errors(source):
-    with pytest.raises(Exception):
-        print(list(tokenize(source)))
+@pytest.mark.parametrize("source, bad", [
+    ("1. hello", r"."),
+    ("9 )$", r"\$"),
+    ("9+--2z!", r"!"),
+    ("x&y", r"&")])
+def test_scanner_detects_lexical_errors(source, bad):
+    with pytest.raises(Exception, match=f"Unexpected character: {bad}"):
+        list(tokenize(source))

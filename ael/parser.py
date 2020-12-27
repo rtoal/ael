@@ -77,7 +77,7 @@ def parse(source_code):
             return IdentifierExpression(match())
         elif at({'-', 'abs', 'sqrt'}):
             op = match()
-            return UnaryExpression(op, parse_expression())
+            return UnaryExpression(op, parse_factor())
         elif at('('):
             match()
             e = parse_expression()
