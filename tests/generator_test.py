@@ -21,9 +21,34 @@ javascript_fixtures = [(
     """
 )]
 
+c_fixtures = [(
+    """\
+    let x = 3
+    x = 5 * sqrt x / x + x - abs x
+    print x
+    """,
+    """\
+    #include <stdio.h>
+    #include <math.h>
+    int main() {
+    double x_1 = 3;
+    x_1 = ((((5 * sqrt(x_1)) / x_1) + x_1) - fabs(x_1));
+    printf("%g\\n", x_1);
+    return 0;
+    }
+    """
+)]
+
 
 @pytest.mark.parametrize("source, expected", [
     (dedent(ael), dedent(js)) for (ael, js) in javascript_fixtures])
 def test_javascript_generator_works(source, expected):
     actual = generate['js'](optimize(analyze(parse(source))))
+    assert actual == expected
+
+
+@pytest.mark.parametrize("source, expected", [
+    (dedent(ael), dedent(c)) for (ael, c) in c_fixtures])
+def test_c_generator_works(source, expected):
+    actual = generate['c'](optimize(analyze(parse(source))))
     assert actual == expected
