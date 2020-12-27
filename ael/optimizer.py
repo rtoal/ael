@@ -16,7 +16,8 @@ from ael.ast import *
 def optimize(node):
 
     def optimizeProgram(self):
-        self.statements = [optimize(s) for s in self.statements if s]
+        self.statements = [
+            optimized for s in self.statements if (optimized := optimize(s))]
         return self
 
     def optimizeDeclaration(self):
@@ -54,7 +55,7 @@ def optimize(node):
             elif (x, self.op) in ((0, '+'), (1, '*')):
                 return self.right
             elif (x, self.op) == (0, '-'):
-                return LiteralExpression(-self.right.value)
+                return UnaryExpression('-', self.right)
             elif (x, self.op) in ((0, '*'), (0, '/')):
                 return LiteralExpression(0)
         elif isinstance(self.right, LiteralExpression):
