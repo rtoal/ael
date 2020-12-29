@@ -1,4 +1,4 @@
-"""Code Generator Ael -> JavaScript
+"""Code Generator Ael -> C
 
 Invoke generate(program) with the program node to get back the C translation
 as a string.
@@ -37,9 +37,9 @@ def generate(program):
             emit(f"double {target_name(self)} = {generate(self.initializer)};")
 
         def generateAssignment(self):
-            self.source = generate(self.source)
-            self.target = generate(self.target)
-            emit(f"{self.target} = {self.source};")
+            source = generate(self.source)
+            target = generate(self.target)
+            emit(f"{target} = {source};")
 
         def generatePrintStatement(self):
             emit(f'printf("%g\\n", {generate(self.expression)});')
