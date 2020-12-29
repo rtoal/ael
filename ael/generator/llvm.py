@@ -48,7 +48,7 @@ def generate(program):
             # There’s no difference between declarations and assignments here;
             # by this time in the complier, we’ve already checked that
             # assignments refer to already-declared Ael variables.
-            variable_mapping[self] = generate(self.source)
+            variable_mapping[self.target.ref] = generate(self.source)
 
         def generatePrintStatement(self):
             format = 'i8* getelementptr inbounds ([3 x i8], [3 x i8]* @format, i64 0, i64 0)'
