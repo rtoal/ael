@@ -1,7 +1,9 @@
 """Code Generator Ael -> LLVM
 
 Invoke generate(program) with the program node to get back the LLVM
-translation as a string.
+translation as a string. As this compiler is totally from scratch,
+we're not using any LLVM libraries and we're just writing out LLVM IR
+as text.
 """
 
 from io import StringIO
@@ -14,6 +16,7 @@ def generate(program):
     next_suffix = -1
 
     def new_local():
+        # Variables in LLVM IR are just %0, %1, %2, ...
         nonlocal next_suffix
         next_suffix += 1
         return f"%{next_suffix}"
@@ -35,25 +38,17 @@ def generate(program):
             emit("}")
 
         def generateDeclaration(self):
-            source = generate(self.initializer)
-            variable_mapping[self] = source
-            if isinstance(source, float) or source.startswith('%'):
-                return
-            # LLVM is single-assignment and you cannot assign a constant
-            # to a variable, so we only generate a variable if the source
-            # is not a constant
-            target = new_local()
-            emit(f"{target} = {source}")
+            # Ael is such a boring language; since there are no loops or
+            # conditions, Ael variables just map to the generated LLVM ones
+            variable_mapping[self] = generate(self.initializer)
 
         def generateAssignment(self):
-            source = generate(self.source)
-            variable_mapping[self] = source
-            if isinstance(source, float) or source.startswith('%'):
-                return
-            # Since LLVM is single assignment, assignments work exactly
-            # like declarations! Easiest to create a new variable!
-            target = new_local()
-            emit(f"{target} = {source}")
+            # Ael is such a boring language; since there are no loops or
+            # conditions, Ael variables just map to the generated LLVM ones.
+            # There’s no difference between declarations and assignments here;
+            # by this time in the complier, we’ve already checked that
+            # assignments refer to already-declared Ael variables.
+            variable_mapping[self] = generate(self.source)
 
         def generatePrintStatement(self):
             format = 'i8* getelementptr inbounds ([3 x i8], [3 x i8]* @format, i64 0, i64 0)'
