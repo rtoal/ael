@@ -1,3 +1,5 @@
+![Logo](https://raw.githubusercontent.com/rtoal/ael/main/docs/ael.png)
+
 # Ael
 
 This is a compiler for the language **Ael** written completely from scratch with no external libraries. Why? This is an introductory example for a compiler course.
