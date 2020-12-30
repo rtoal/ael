@@ -81,9 +81,9 @@ class Scanner:
             return self.category == candidate
         return self.lexeme == candidate
 
-    def match(self, expected_token=None, if_no_match=None):
+    def match(self, expected_token=None):
         if expected_token is None or self.at(expected_token):
             matched_lexeme = self.lexeme
             self.advance()
             return matched_lexeme
-        raise Exception(if_no_match or f"Expected '{expected_token}'")
+        raise Exception(f"Expected '{expected_token}'")
