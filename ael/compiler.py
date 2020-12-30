@@ -1,14 +1,11 @@
-"""A commpiler for Ael
+"""Compiler
 
-You can run this compiler from the command line, for example:
+This module exports a single function
 
-    ./aelc some/cool/file.ael js
+    complile(source_code_string, output_type)
 
-or simply include this module in a larger app and invoke the compile function:
-
-    compile(source_code_of_some_program, 'c')
-
-The second argument tells the compiler what to print to standard output:
+The second argument tells the compiler what to print to standard output. It
+must be one of:
 
     tokens     the token sequence
     ast        the abstract syntax tree
