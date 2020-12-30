@@ -32,11 +32,12 @@ AssignStmt  = id "=" Exp
 PrintStmt   = print Exp
 Exp         = Term (("+" | "-") Term)*
 Term        = Factor (("*" | "/") Factor)*
-Factor      = num | id | unaryop Factor | "(" Exp ")"
-unaryop     = -|(abs|sqrt)\b
+Factor      = num | id | ("-" | abs | sqrt) Factor | "(" Exp ")"
 num         = \d+(\.\d+)?
 let         = let\b
 print       = print\b
+abs         = abs\b
+sqrt        = sqrt\b
 id          = \w+
 skip        = \s+|//.*?(\n|$)
 ```

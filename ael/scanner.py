@@ -40,7 +40,7 @@ def tokenize(source):
     SKIP = re.compile(r'\s+|//.*?(\n|$)')
     NUMBER = re.compile(r'\d+(\.\d+)?')
     KEYWORD = re.compile(r'(let|print|abs|sqrt)\b')
-    IDENTIFIER = re.compile(r'\w+', re.UNICODE)
+    IDENTIFIER = re.compile(r'\w+')
     SYMBOL = re.compile(r'\+|\-|\*|\/|=|\(|\)')
 
     position = 0

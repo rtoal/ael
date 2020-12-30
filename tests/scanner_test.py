@@ -12,10 +12,10 @@ def test_scanner_can_tokenize_the_simplest_source():
 def test_scanner_can_tokenize_a_program_with_all_tokens():
     source = """   let x = 5 * 9
         x = x + (2 - 8) / 8999
-        let y = x // look it is a comment
+        let 大きい犬 = x // look it is a comment
 
         // that was a blank line
-        print y / 1.2
+        print 大きい犬 / 1.2
         """
     assert list(tokenize(source)) == [
         ('#KEYWORD', 'let'),
@@ -36,11 +36,11 @@ def test_scanner_can_tokenize_a_program_with_all_tokens():
         ('#SYMBOL', '/'),
         ('#NUMBER', '8999'),
         ('#KEYWORD', 'let'),
-        ('#IDENTIFIER', 'y'),
+        ('#IDENTIFIER', '大きい犬'),
         ('#SYMBOL', '='),
         ('#IDENTIFIER', 'x'),
         ('#KEYWORD', 'print'),
-        ('#IDENTIFIER', 'y'),
+        ('#IDENTIFIER', '大きい犬'),
         ('#SYMBOL', '/'),
         ('#NUMBER', '1.2'),
         ('#END', '')]
