@@ -1,5 +1,5 @@
 // Has all syntactic forms
-let x = 5 * 9
-x = x + (2 - 8) / -8999.235
-let y = abs (x - 5)
-print -y / sqrt y
+let dog = 5 * 9
+dog = dog + (2 - 80) / -8999.235
+let ラット = abs (dog - 5)
+print -ラット / sqrt dog + ラット
