@@ -22,4 +22,9 @@ Prints to stdout according to <output_type>, which must be one of:
 if len(argv) != 3:
     print(help)
 else:
-    compile(Path(argv[1]).read_text(), argv[2])
+    output = compile(Path(argv[1]).read_text(), argv[2])
+    if hasattr(output, '__next__'):
+        for element in output:
+            print(element)
+    else:
+        print(output)

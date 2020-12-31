@@ -55,15 +55,15 @@ small_expected_llvm_program = dedent("""\
 
 
 def test_javascript_generator_works():
-    actual = generate['js'](optimize(analyze(parse(small_ael_program))))
+    actual = generate['js'](optimize(analyze(parse(tokenize(small_ael_program)))))
     assert actual == small_expected_javascript_program
 
 
 def test_c_generator_works():
-    actual = generate['c'](optimize(analyze(parse(small_ael_program))))
+    actual = generate['c'](optimize(analyze(parse(tokenize(small_ael_program)))))
     assert actual == small_expected_c_program
 
 
 def test_llvm_generator_works():
-    actual = generate['llvm'](optimize(analyze(parse(small_ael_program))))
+    actual = generate['llvm'](optimize(analyze(parse(tokenize(small_ael_program)))))
     assert actual == small_expected_llvm_program

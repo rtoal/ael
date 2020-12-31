@@ -1,14 +1,14 @@
 import pytest
-from ael.analyzer import analyze
+from ael.scanner import tokenize
 from ael.parser import parse
-
+from ael.analyzer import analyze
 
 def test_analyzer_can_analyze_all_the_nodes():
     source = """
        let two = 2-0
        print(1 * two)
        two = sqrt 101.3"""
-    assert str(analyze(parse(source))) == """   1 | program: Program
+    assert str(analyze(parse(tokenize(source)))) == """   1 | program: Program
    2 |   statements[0]: Declaration name='two'
    3 |     initializer: BinaryExpression op='-'
    4 |       left: LiteralExpression value=2
@@ -29,4 +29,4 @@ def test_analyzer_can_analyze_all_the_nodes():
     ("let x = 1\nlet x = 1", r"Identifier x already declared")])
 def test_analyzer_can_detect_all_the_errors(source, bad):
     with pytest.raises(Exception, match=bad):
-        analyze(parse(source))
+        analyze(parse(tokenize(source)))

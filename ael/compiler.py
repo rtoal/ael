@@ -4,8 +4,7 @@ This module exports a single function
 
     complile(source_code_string, output_type)
 
-The second argument tells the compiler what to print to standard output. It
-must be one of:
+The second argument tells the compiler what to produce. It must be one of:
 
     tokens     the token sequence
     ast        the abstract syntax tree
@@ -26,15 +25,14 @@ from ael.generator import generate
 def compile(source, output_type):
     output_type = output_type.lower()
     if output_type == 'tokens':
-        for token in tokenize(source):
-            print(token)
+        return tokenize(source)
     elif output_type == 'ast':
-        print(parse(source))
+        return(parse(tokenize(source)))
     elif output_type == 'analyzed':
-        print(analyze(parse(source)))
+        return(analyze(parse(tokenize(source))))
     elif output_type == 'optimized':
-        print(optimize(analyze(parse(source))))
+        return(optimize(analyze(parse(tokenize(source)))))
     elif output_type in ('js', 'c', 'llvm'):
-        print(generate[output_type](optimize(analyze(parse(source)))))
+        return(generate[output_type](optimize(analyze(parse(tokenize(source))))))
     else:
-        print('Unknown output type')
+        return('Unknown output type')

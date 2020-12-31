@@ -1,4 +1,5 @@
 import pytest
+from ael.scanner import tokenize
 from ael.parser import parse
 from ael.ast import *
 
@@ -8,7 +9,7 @@ def test_parser_can_parse_all_the_nodes():
        let two = 2 - 0
        print(1 * two)   // TADA 🥑 
        two = sqrt 101.3"""
-    assert str(parse(source)) == """   1 | program: Program
+    assert str(parse(tokenize(source))) == """   1 | program: Program
    2 |   statements[0]: Declaration name='two'
    3 |     initializer: BinaryExpression op='-'
    4 |       left: LiteralExpression value=2
@@ -34,4 +35,4 @@ def test_parser_can_parse_all_the_nodes():
     ("let x = * 71", r"Expected id, number, unary operator, or '\('")])
 def test_parser_can_detect_lots_of_errors(source, bad):
     with pytest.raises(Exception, match=bad):
-        parse(source)
+        parse(tokenize(source))

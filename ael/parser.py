@@ -5,10 +5,9 @@ its own parsing function which returns a piece of the Abstract Syntax Tree or
 raises an Exception. More information about Recursive Descent Parsing can be
 found at https://en.wikipedia.org/wiki/Recursive_descent_parser.
 
-The parser is implemented as a single function which creates a scanner when
-it begins. The parser stores the current token in the two local variables
-(category, lexeme), but rather than using the variables directly it relies
-on two utility functions:
+The parser is implemented as a function accepting a token stream. It stores
+the current token in the two local variables (category, lexeme). Rather than
+using the variables directly it relies on two utility functions:
 
     match(t)
         Expect the next token to be t or in the set t, consume it, then return
@@ -28,12 +27,10 @@ When calling match() or at(), you can supply either a category or a lexeme:
     at({"/", "*"})
 """
 
-from ael.scanner import tokenize
 from ael.ast import *
 
 
-def parse(source_code):
-    token_stream = tokenize(source_code)
+def parse(token_stream):
     category, lexeme = next(token_stream)
 
     def at(candidate):
